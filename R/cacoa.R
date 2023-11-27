@@ -1486,7 +1486,7 @@ Cacoa <- R6::R6Class("Cacoa", lock_objects=FALSE,
     #' @return resulting cell loadings
     estimateCellLoadings=function(n.boot=1000, ref.cell.type=NULL, name='coda', n.seed=239,
                                   cells.to.remove=NULL, cells.to.remain=NULL, samples.to.remove=NULL,
-                                  filter.empty.cell.types=TRUE, n.cores=self$n.cores, verbose=self$verbose) {
+                                  filter.empty.cell.types=TRUE, n.cores=self$n.cores, verbose=self$verbose, CTR_EK) {
       checkPackageInstalled(c("coda.base", "psych"), cran=TRUE)
 
       if ((!is.null(ref.cell.type)) && (!(ref.cell.type %in% levels(self$cell.groups))))
@@ -1495,6 +1495,10 @@ Cacoa <- R6::R6Class("Cacoa", lock_objects=FALSE,
       # Get cell counts and groups
       tmp <- private$extractCodaData(cells.to.remove=cells.to.remove, cells.to.remain=cells.to.remain,
                                      samples.to.remove=samples.to.remove)
+       if (filter.empty.cell.types) {
+          cell.type.to.remain <- CTR_EK
+          tmp$d.counts <- tmp$d.counts[, cell.type.to.remain]
+        }
 
       cnts <- tmp$d.counts
       groups <- tmp$d.groups
