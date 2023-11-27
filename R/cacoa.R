@@ -1497,8 +1497,8 @@ Cacoa <- R6::R6Class("Cacoa", lock_objects=FALSE,
                                      samples.to.remove=samples.to.remove)
 
       if (filter.empty.cell.types) {
-        cell.type.to.remain <- (colSums(tmp$d.counts[tmp$d.groups, ]) > 0, drop = F) &
-          (colSums(tmp$d.counts[!tmp$d.groups,]) > 0, drop = F)
+        cell.type.to.remain <- (colSums(tmp$d.counts[tmp$d.groups, , drop = F ]) > 0) &
+          (colSums(tmp$d.counts[!tmp$d.groups,, drop = F]) > 0)
         tmp$d.counts <- tmp$d.counts[,cell.type.to.remain]
       }
       cnts <- tmp$d.counts
